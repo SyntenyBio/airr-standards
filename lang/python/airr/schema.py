@@ -9,9 +9,13 @@ from typing import Union
 
 import yaml
 import yamlordereddictloader
-from pkg_resources import resource_stream
+if sys.version_info >= (3, 12):
+    import importlib.resources as resources
+else:
+    import importlib_resources as resources
 
-with resource_stream(__name__, 'specs/airr-schema.yaml') as f:
+
+with resources.files(__name__).joinpath('specs/airr-schema.yaml').open('r') as f:
     DEFAULT_SPEC = yaml.load(f, Loader=yamlordereddictloader.Loader)
 
 
